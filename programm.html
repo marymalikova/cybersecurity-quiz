@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Awareness Training</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .options {
+            margin: 10px 0;
+        }
+        .options label {
+            display: block;
+            margin: 5px 0;
+        }
+        .explanation {
+            margin-top: 10px;
+            color: #007bff;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Cybersecurity Awareness Training</h1>
+    <p>Welcome to the Extended Cybersecurity Awareness Training Program! In this training, you will learn about various aspects of cybersecurity and how to protect yourself from common threats. Let's start with an in-depth quiz to test your current knowledge.</p>
+
+    <div id="quiz">
+        <!-- Quiz questions will be injected here by JavaScript -->
+    </div>
+
+    <div class="result" id="result"></div>
+    <button class="button" onclick="submitQuiz()">Submit Quiz</button>
+</div>
+
+<script>
+    const questions = [
+        {
+            question: "1. What is the strongest type of password?",
+            options: ["123456", "password", "P@ssw0rd!123", "qwerty"],
+            answer: "P@ssw0rd!123",
+            explanation: "Strong passwords should include a mix of letters, numbers, and special characters."
+        },
+        {
+            question: "2. What should you do if you receive an email from an unknown sender with an attachment?",
+            options: ["Open the attachment", "Delete the email", "Reply to the email", "Forward the email to a friend"],
+            answer: "Delete the email",
+            explanation: "It's best to delete emails from unknown senders, especially if they contain attachments, to avoid malware."
+        },
+        {
+            question: "3. Which of the following is a sign of a phishing attempt?",
+            options: ["Spelling and grammatical errors", "Unsolicited attachments", "Requests for personal information", "All of the above"],
+            answer: "All of the above",
+            explanation: "Phishing emails often contain errors, unexpected attachments, and requests for personal information."
+        },
+        {
+            question: "4. What is two-factor authentication (2FA)?",
+            options: ["Using two passwords", "A single security question", "A method that requires two forms of identification", "Logging in from two devices"],
+            answer: "A method that requires two forms of identification",
+            explanation: "2FA enhances security by requiring two forms of identification, such as a password and a code sent to your phone."
+        },
+        {
+            question: "5. How often should you update your passwords?",
+            options: ["Every month", "Every six months", "Once a year", "Never"],
+            answer: "Every six months",
+            explanation: "It's recommended to update passwords every six months to ensure account security."
+        },
+        {
+            question: "6. What should you do if you suspect your computer is infected with malware?",
+            options: ["Ignore it", "Run a security scan with antivirus software", "Turn off your computer", "Unplug it from the internet"],
+            answer: "Run a security scan with antivirus software",
+            explanation: "Running a security scan with antivirus software can help detect and remove malware."
+        },
+        {
+            question: "7. Which of the following is a safe practice for online shopping?",
+            options: ["Using public Wi-Fi", "Shopping on secure websites (HTTPS)", "Saving your credit card information on websites", "Using the same password for all accounts"],
+            answer: "Shopping on secure websites (HTTPS)",
+            explanation: "Always shop on secure websites (HTTPS) to protect your financial information."
+        },
+        {
+            question: "8. What is social engineering?",
+            options: ["A type of network security", "Manipulating people into giving up confidential information", "A form of encryption", "A cybersecurity software"],
+            answer: "Manipulating people into giving up confidential information",
+            explanation: "Social engineering involves manipulating people into divulging confidential information."
+        },
+        {
+            question: "9. Why is it important to install software updates?",
+            options: ["To add new features", "To fix bugs and security vulnerabilities", "To make your device faster", "To change the appearance"],
+            answer: "To fix bugs and security vulnerabilities",
+            explanation: "Software updates often include patches for security vulnerabilities and bug fixes."
+        },
+        {
+            question: "10. How can you identify a secure website?",
+            options: ["It has a padlock symbol in the address bar", "The URL starts with HTTP", "It loads quickly", "It has many ads"],
+            answer: "It has a padlock symbol in the address bar",
+            explanation: "A secure website will have a padlock symbol in the address bar and the URL will start with HTTPS."
+        }
+    ];
+
+    function loadQuiz() {
+        const quizContainer = document.getElementById('quiz');
+        questions.forEach((q, index) => {
+            const questionElement = document.createElement('div');
+            questionElement.className = 'question';
+            questionElement.innerHTML = `<p>${q.question}</p>`;
+            
+            q.options.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'options';
+                optionElement.innerHTML = `<label><input type="radio" name="question${index}" value="${option}"> ${option}</label>`;
+                questionElement.appendChild(optionElement);
+            });
+            
+            quizContainer.appendChild(questionElement);
+        });
+    }
+
+    function submitQuiz() {
+        let score = 0;
+        const resultContainer = document.getElementById('result');
+        resultContainer.innerHTML = ''; // Clear previous results
+
+        questions.forEach((q, index) => {
+            const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+            const explanationElement = document.createElement('div');
+            explanationElement.className = 'explanation';
+            
+            if (selectedOption && selectedOption.value === q.answer) {
+                score += 1;
+                explanationElement.innerHTML = `Correct! ${q.explanation}`;
+            } else {
+                explanationElement.innerHTML = `Incorrect. The correct answer is ${q.answer}. ${q.explanation}`;
+            }
+            
+            document.querySelectorAll('.question')[index].appendChild(explanationElement);
+        });
+
+        resultContainer.innerHTML = `You got ${score} out of ${questions.length} questions correct.`;
+    }
+
+    document.addEventListener('DOMContentLoaded', loadQuiz);
+</script>
+
+</body>
+</html>
